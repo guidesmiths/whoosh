@@ -22,9 +22,10 @@ var content = 'my content'
 Whoosh.connect(config, function(err, whoosh) {
     if (err) return bail(err)
     whoosh.putContent('some/remote/file.txt', content, options, function(err, stats) {
-        whoosh.disconnect()
-        if (err) return bail(err)
-        console.log('Uploaded ' + stats.size + ' bytes')
+        whoosh.disconnect(function() {
+            if (err) return bail(err)
+            console.log('Uploaded ' + stats.size + ' bytes')        
+        })
     })
 })
 ```
@@ -34,9 +35,10 @@ Whoosh.connect(config, function(err, whoosh) {
 Whoosh.connect(config, function(err, whoosh) {
     if (err) return bail(err)
     whoosh.putContent('some/remote/file.txt', 'my content', options, function(err, content) {
-        whoosh.disconnect()
-        if (err) return bail(err)
-        console.log('Downloaded ' + Buffer.byteLength(content.length) + ' bytes')
+        whoosh.disconnect(function() {
+            if (err) return bail(err)
+            console.log('Downloaded ' + Buffer.byteLength(content.length) + ' bytes')        
+        )}
     })
 })
 ```
@@ -53,9 +55,10 @@ The ```whoosh``` object is just a decorated instance of [SFTPStream](https://git
 Whoosh.connect(config, function(err, whoosh) {
     if (err) return bail(err)
     whoosh.unlink('some/remote/file.txt', function(err) {
-        whoosh.disconnect()
-        if (err) return bail(err)
-        console.log('Deleted some/remote/file.txt')
+        whoosh.disconnect(function() {
+            if (err) return bail(err)
+            console.log('Deleted some/remote/file.txt')        
+        })
     })
 })
 ```
