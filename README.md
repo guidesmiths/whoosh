@@ -47,7 +47,7 @@ It can be annoying to explicitly disconnect after each call, so we've added ```p
 
 ### Everything else
 
-whoosh is just a decorated instance of [SFTPStream](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md) so all the other SFTP methods are available.
+The ```whoosh``` object is just a decorated instance of [SFTPStream](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md) so all the other SFTP methods are available.
 
 
 
