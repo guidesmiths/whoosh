@@ -1,0 +1,8 @@
+sftp:
+  image: atmoz/sftp
+  command: fred:password:1001
+  volumes:
+   - tests/volumes/sftp/etc/ssh/sshd_config:/etc/ssh/sshd_config:rw
+   - tests/volumes/sftp/home/fred/files:/home/fred/files:rw
+  ports:
+   - "10022:22"

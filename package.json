@@ -1,0 +1,26 @@
+{
+  "name": "whoosh",
+  "version": "0.0.1",
+  "description": "A streaming sftp client",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test mocha --recursive tests"
+  },
+  "keywords": [
+    "sftp",
+    "streaming",
+    "client"
+  ],
+  "author": "GuideSmiths",
+  "license": "ISC",
+  "devDependencies": {
+    "async": "^1.2.1",
+    "fs-extra": "^0.18.4",
+    "mocha": "^2.2.5"
+  },
+  "dependencies": {
+    "debug": "^2.2.0",
+    "lodash": "^3.9.3",
+    "ssh2": "^0.4.8"
+  }
+}
