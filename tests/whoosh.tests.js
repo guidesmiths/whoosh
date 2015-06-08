@@ -8,7 +8,7 @@ var Whoosh = require('..')
 describe('whoosh', function() {
 
     this.slow(undefined)
-    this.timeout(60000)
+    this.timeout(10000)
 
     beforeEach(nuke)
 
@@ -167,7 +167,7 @@ describe('whoosh', function() {
                 assert.ifError(err)
                 assert.equal('test message', fs.readFileSync(getLocalPath(title)).toString())
                 assert.equal(stats.size, 12)
-                done()
+                whoosh.disconnect(done)
             })
         })
     })
@@ -179,7 +179,7 @@ describe('whoosh', function() {
             fs.writeFileSync(getLocalPath(title), 'test message')
             whoosh.getContentAndDisconnect(getRemotePath(title), function(err, content) {
                 assert.equal('test message', content)
-                done()
+                whoosh.disconnect(done)
             })
         })
     })

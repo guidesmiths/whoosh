@@ -28,10 +28,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/guidesmiths/woosh.git"
+    "url": "https://github.com/guidesmiths/whoosh.git"
   },
   "bugs": {
-    "url": "https://github.com/guidesmiths/woosh/issues"
+    "url": "https://github.com/guidesmiths/whoosh/issues"
   },
-  "homepage": "https://github.com/guidesmiths/woosh"
+  "homepage": "https://github.com/guidesmiths/whoosh"
 }

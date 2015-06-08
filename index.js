@@ -76,6 +76,7 @@ module.exports = {
                         })
                     },
                     disconnect: function(next) {
+                        if (connection._sock.destroyed) return next()
                         sftp.end()
                         connection.end()
                         connection.once('close', next)
