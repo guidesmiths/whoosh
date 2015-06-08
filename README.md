@@ -47,7 +47,16 @@ It can be annoying to explicitly disconnect after each call, so we've added ```p
 
 ### Everything else
 
-The ```whoosh``` object is just a decorated instance of [SFTPStream](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md) so all the other SFTP methods are available.
+The ```whoosh``` object is just a decorated instance of [SFTPStream](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md) so all the other SFTP methods are available. e.g.
+
+Whoosh.connect(config, function(err, whoosh) {
+    if (err) return bail(err)
+    whoosh.unlink('some/remote/file.txt', function(err) {
+        whoosh.disconnect()
+        if (err) return bail(err)
+        console.log('Deleted some/remote/file.txt')
+    })
+})
 
 
 
