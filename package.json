@@ -22,5 +22,16 @@
     "debug": "^2.2.0",
     "lodash": "^3.9.3",
     "ssh2": "^0.4.8"
-  }
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/guidesmiths/woosh.git"
+  },
+  "bugs": {
+    "url": "https://github.com/guidesmiths/woosh/issues"
+  },
+  "homepage": "https://github.com/guidesmiths/woosh"
 }
