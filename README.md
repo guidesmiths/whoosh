@@ -16,11 +16,12 @@ Whoosh.connect({
 })
 ```
 
-### Upload in memory content
+### Write the contents of a variable to a remote file
 ```js
+var content = 'my content'
 Whoosh.connect(config, function(err, whoosh) {
     if (err) return bail(err)
-    whoosh.putContent('some/remote/file.txt', 'my content', options, function(err, stats) {
+    whoosh.putContent('some/remote/file.txt', content, options, function(err, stats) {
         whoosh.disconnect()
         if (err) return bail(err)
         console.log('Uploaded ' + stats.size + ' bytes')
@@ -28,7 +29,7 @@ Whoosh.connect(config, function(err, whoosh) {
 })
 ```
 
-### Download file to an in memory variable
+### Read the contents of a remote file into a variable
 ```js
 Whoosh.connect(config, function(err, whoosh) {
     if (err) return bail(err)
