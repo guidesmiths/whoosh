@@ -25,7 +25,7 @@ Whoosh.connect(config, function(err, whoosh) {
     whoosh.putContent('some/remote/file.txt', content, options, function(err, stats) {
         whoosh.disconnect(function() {
             if (err) return bail(err)
-            console.log('Uploaded ' + stats.size + ' bytes')        
+            console.log('Uploaded ' + stats.size + ' bytes')
         })
     })
 })
@@ -38,16 +38,13 @@ Whoosh.connect(config, function(err, whoosh) {
     whoosh.putContent('some/remote/file.txt', 'my content', options, function(err, content) {
         whoosh.disconnect(function() {
             if (err) return bail(err)
-            console.log('Downloaded ' + Buffer.byteLength(content.length) + ' bytes')        
+            console.log('Downloaded ' + Buffer.byteLength(content.length) + ' bytes')
         )}
     })
 })
 ```
 ### What are my options?
 The options parameters are passed straight through to [SFTPStream's](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md) ```createReadStream``` and ```createWriteStream``` methods respectively. You can omit the options parameter entirely if you wish.
-
-### Automatic disconnect
-It can be annoying to explicitly disconnect after each call, so we've added ```putContentAndDisconnect``` and ```getContentAndDisconnect``` variations which will disconnect before invoking the callback.
 
 ### Everything else
 
@@ -58,7 +55,7 @@ Whoosh.connect(config, function(err, whoosh) {
     whoosh.unlink('some/remote/file.txt', function(err) {
         whoosh.disconnect(function() {
             if (err) return bail(err)
-            console.log('Deleted some/remote/file.txt')        
+            console.log('Deleted some/remote/file.txt')
         })
     })
 })

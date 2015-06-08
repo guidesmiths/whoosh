@@ -40,15 +40,6 @@ module.exports = {
                             once(null, content)
                         }).on('error', once)
                     },
-                    getContentAndDisconnect: function(remotePath, options, next) {
-                        if (arguments.length === 2) return sftp.getContentAndDisconnect(remotePath, {}, arguments[1])
-
-                        sftp.getContent(remotePath, options, function(err, content) {
-                            sftp.disconnect(function() {
-                                next(err, content)
-                            })
-                        })
-                    },
                     putContent: function(content, remotePath, options, next) {
                         if (arguments.length === 3) return sftp.putContent(content, remotePath, {}, arguments[2])
 
@@ -65,15 +56,6 @@ module.exports = {
                         readStream.push(content)
                         readStream.push(null)
                         readStream.pipe(writeStream)
-                    },
-                    putContentAndDisconnect: function(content, remotePath, options, next) {
-                        if (arguments.length === 3) return sftp.putContentAndDisconnect(content, remotePath, {}, arguments[2])
-
-                        sftp.putContent(content, remotePath, options, function(err, stats) {
-                            sftp.disconnect(function() {
-                                next(err, stats)
-                            })
-                        })
                     },
                     disconnect: function(next) {
                         if (connection._sock.destroyed) return next()

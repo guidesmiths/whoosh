@@ -159,31 +159,6 @@ describe('whoosh', function() {
         })
     })
 
-    it('should upload content and disconnect', function(done) {
-        var title = this.test.title
-        Whoosh.connect(config, function(err, whoosh) {
-            assert.ifError(err)
-            whoosh.putContentAndDisconnect('test message', getRemotePath(title), function(err, stats) {
-                assert.ifError(err)
-                assert.equal('test message', fs.readFileSync(getLocalPath(title)).toString())
-                assert.equal(stats.size, 12)
-                whoosh.disconnect(done)
-            })
-        })
-    })
-
-    it('should download content and disconnect', function(done) {
-        var title = this.test.title
-        Whoosh.connect(config, function(err, whoosh) {
-            assert.ifError(err)
-            fs.writeFileSync(getLocalPath(title), 'test message')
-            whoosh.getContentAndDisconnect(getRemotePath(title), function(err, content) {
-                assert.equal('test message', content)
-                whoosh.disconnect(done)
-            })
-        })
-    })
-
     function getRemotePath(filename) {
         return 'files/uploads/' + (filename ? filename.replace(/\W/g, '_') : '')
     }
