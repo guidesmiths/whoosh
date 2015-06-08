@@ -44,7 +44,6 @@ The options parameters are passed straight through to [SFTPStream's](https://git
 
 ### Automatic disconnect
 It can be annoying to explicitly disconnect after each call, so we've added ```putContentAndDisconnect``` and ```getContentAndDisconnect``` variations which will disconnect before invoking the callback.
-```
 
 ### Everything else
 
