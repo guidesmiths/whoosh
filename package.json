@@ -4,7 +4,8 @@
   "description": "A streaming sftp client",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --recursive tests"
+    "test": "NODE_ENV=test mocha --recursive tests",
+    "prepush": "npm test"
   },
   "keywords": [
     "sftp",
@@ -16,6 +17,7 @@
   "devDependencies": {
     "async": "^1.2.1",
     "fs-extra": "^0.18.4",
+    "husky": "^0.8.1",
     "mocha": "^2.2.5"
   },
   "dependencies": {
