@@ -14,8 +14,8 @@ Whoosh.connect({
 }, function(err, whoosh) {
     // handle error or do stuff with whoosh
 })
-See the [ssh2 client docs](https://github.com/mscdex/ssh2#client-methods) for a full list of connection parameters
 ```
+See the [ssh2 client docs](https://github.com/mscdex/ssh2#client-methods) for a full list of connection parameters
 
 ### Write the contents of a variable to a remote file
 ```js
