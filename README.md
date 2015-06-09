@@ -39,7 +39,6 @@ Whoosh.connect(config, function(err, whoosh) {
         whoosh.disconnect(function() {
             whoosh.isConnected(function(err, connected) {
                 assert.ok(!connected)
-                })
             })
         })
     )}
