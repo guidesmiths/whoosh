@@ -44,8 +44,23 @@ Whoosh.connect(config, function(err, whoosh) {
     )}
 })
 ```
+#### getContent
+Streams the contents of a remote file into a variable
+```js
+Whoosh.connect(config, function(err, whoosh) {
+    if (err) return bail(err)
+    whoosh.getContent('some/remote/file', options, function(err, content, stats) {
+        whoosh.disconnect(function() {
+            if (err) return bail(err)
+            console.log('Downloaded ' + stats.size + ' bytes in ' + stats.duration + 'ms')
+        )}
+    })
+})
+```
+The options parameter is is optional. When specified it is passed straight through to [SFTPStream's](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md) ```createReadStream``` method.
 
-#### Write the contents of a variable to a remote file
+#### putContent
+Streams the contents of a variable to a remote file
 ```js
 var content = 'my content'
 Whoosh.connect(config, function(err, whoosh) {
@@ -55,21 +70,6 @@ Whoosh.connect(config, function(err, whoosh) {
             if (err) return bail(err)
             console.log('Uploaded ' + stats.size + ' bytes in ' + stats.duration + 'ms')
         })
-    })
-})
-```
-The options parameter is is optional. When specified it is passed straight through to [SFTPStream's](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md) ```createReadStream``` method.
-
-
-#### Read the contents of a remote file into a variable
-```js
-Whoosh.connect(config, function(err, whoosh) {
-    if (err) return bail(err)
-    whoosh.getContent('some/remote/file', options, function(err, content, stats) {
-        whoosh.disconnect(function() {
-            if (err) return bail(err)
-            console.log('Downloaded ' + stats.size + ' bytes in ' + stats.duration + 'ms')
-        )}
     })
 })
 ```
