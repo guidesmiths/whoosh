@@ -45,7 +45,7 @@ Whoosh.connect(config, function(err, whoosh) {
 })
 ```
 #### getContent
-Streams the contents of a remote file into a variable
+Streams the contents of a remote file to a variable
 ```js
 Whoosh.connect(config, function(err, whoosh) {
     if (err) return bail(err)
