@@ -54,7 +54,7 @@ Whoosh.connect(config, function(err, whoosh) {
     whoosh.putContent('some/remote/file', content, options, function(err, stats) {
         whoosh.disconnect(function() {
             if (err) return bail(err)
-            console.log('Uploaded ' + new Buffer(stats.size).length + ' bytes')
+            console.log('Uploaded ' + stats.size + ' bytes in ' + stats.duration + 'ms')
         })
     })
 })
@@ -66,10 +66,10 @@ The options parameter is is optional. When specified it is passed straight throu
 ```js
 Whoosh.connect(config, function(err, whoosh) {
     if (err) return bail(err)
-    whoosh.getContent('some/remote/file', options, function(err, content) {
+    whoosh.getContent('some/remote/file', options, function(err, content, stats) {
         whoosh.disconnect(function() {
             if (err) return bail(err)
-            console.log('Downloaded ' + new Buffer(stats.size).length + ' bytes')
+            console.log('Downloaded ' + stats.size + ' bytes in ' + stats.duration + 'ms')
         )}
     })
 })

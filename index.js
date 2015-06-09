@@ -1,5 +1,5 @@
 var Client = require('ssh2').Client
-var debug = require('debug')('whoosh')
+var debug = require('debug')('whoosh:client')
 var ssh2Debug = require('debug')('whoosh:ssh2')
 var _ = require('lodash')
 var Readable = require('stream').Readable
@@ -35,12 +35,15 @@ module.exports = {
                         var once = _.once(next)
                         var content = ''
                         var readStream = sftp.createReadStream(remotePath, options)
+                        var before = new Date().getTime()
 
                         readStream.on('data', function(chunk) {
                             content += chunk
                         }).on('end', function() {
-                            debug('Downloaded %d bytes', countBytes(content), remoteUrl)
-                            once(null, content)
+                            var duration = new Date().getTime() - before
+                            var size = countBytes(content)
+                            debug('Downloaded %d bytes from %s in %dms', size, remoteUrl, duration)
+                            once(null, content, { size: size, duration: duration })
                         }).on('error', once)
                     },
                     putContent: function(content, remotePath, options, next) {
@@ -48,11 +51,13 @@ module.exports = {
 
                         var once = _.once(next)
                         var writeStream = sftp.createWriteStream(remotePath)
-                        var size = countBytes(content)
+                        var before = new Date().getTime()
 
                         writeStream.on('close', function() {
-                            debug('Uploaded %d bytes to %s', size, remoteUrl)
-                            once(null, { size: size })
+                            var duration = new Date().getTime() - before
+                            var size = countBytes(content)
+                            debug('Uploaded %d bytes to %s in %sms', size, remoteUrl, duration)
+                            once(null, { size: size, duration: duration })
                         }).on('error', once)
 
                         var readStream = new Readable()
