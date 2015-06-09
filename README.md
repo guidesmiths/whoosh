@@ -66,7 +66,7 @@ The options parameter is is optional. When specified it is passed straight throu
 ```js
 Whoosh.connect(config, function(err, whoosh) {
     if (err) return bail(err)
-    whoosh.putContent('some/remote/file.txt', 'my content', options, function(err, content) {
+    whoosh.getContent('some/remote/file.txt', options, function(err, content) {
         whoosh.disconnect(function() {
             if (err) return bail(err)
             console.log('Downloaded ' + Buffer.byteLength(content.length) + ' bytes')
