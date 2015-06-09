@@ -63,7 +63,7 @@ describe('whoosh', function() {
             whoosh.putContent('test message', getRemotePath(title), function(err, stats) {
                 assert.ifError(err)
                 assert.equal('test message', fs.readFileSync(getLocalPath(title)).toString())
-                assert.equal(stats.size, 12)
+                assert.equal(stats.bytes, 12)
                 assert.ok(stats.duration > 0)
                 whoosh.disconnect(done)
             })
@@ -77,7 +77,7 @@ describe('whoosh', function() {
             fs.writeFileSync(getLocalPath(title), 'test message')
             whoosh.getContent(getRemotePath(title), function(err, content, stats) {
                 assert.equal('test message', content)
-                assert.equal(stats.size, 12)
+                assert.equal(stats.bytes, 12)
                 assert.ok(stats.duration > 0)
                 whoosh.disconnect(done)
             })
@@ -91,7 +91,7 @@ describe('whoosh', function() {
             whoosh.putContent(new Buffer('test message'), getRemotePath(title), function(err, stats) {
                 assert.ifError(err)
                 assert.equal('test message', fs.readFileSync(getLocalPath(title)).toString())
-                assert.equal(stats.size, 12)
+                assert.equal(stats.bytes, 12)
                 whoosh.disconnect(done)
             })
         })

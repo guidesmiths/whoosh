@@ -41,9 +41,9 @@ module.exports = {
                             content += chunk
                         }).on('end', function() {
                             var duration = new Date().getTime() - before
-                            var size = countBytes(content)
-                            debug('Downloaded %d bytes from %s in %dms', size, remoteUrl, duration)
-                            once(null, content, { size: size, duration: duration })
+                            var bytes = countBytes(content)
+                            debug('Downloaded %d bytes from %s in %dms', bytes, remoteUrl, duration)
+                            once(null, content, { bytes: bytes, duration: duration })
                         }).on('error', once)
                     },
                     putContent: function(content, remotePath, options, next) {
@@ -55,9 +55,9 @@ module.exports = {
 
                         writeStream.on('close', function() {
                             var duration = new Date().getTime() - before
-                            var size = countBytes(content)
-                            debug('Uploaded %d bytes to %s in %sms', size, remoteUrl, duration)
-                            once(null, { size: size, duration: duration })
+                            var bytes = countBytes(content)
+                            debug('Uploaded %d bytes to %s in %sms', bytes, remoteUrl, duration)
+                            once(null, { bytes: bytes, duration: duration })
                         }).on('error', once)
 
                         var readStream = new Readable()
