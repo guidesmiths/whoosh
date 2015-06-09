@@ -54,7 +54,7 @@ Whoosh.connect(config, function(err, whoosh) {
     whoosh.putContent('some/remote/file', content, options, function(err, stats) {
         whoosh.disconnect(function() {
             if (err) return bail(err)
-            console.log('Uploaded ' + stats.size + ' bytes')
+            console.log('Uploaded ' + new Buffer(stats.size).length + ' bytes')
         })
     })
 })
@@ -69,7 +69,7 @@ Whoosh.connect(config, function(err, whoosh) {
     whoosh.getContent('some/remote/file', options, function(err, content) {
         whoosh.disconnect(function() {
             if (err) return bail(err)
-            console.log('Downloaded ' + Buffer.byteLength(content.length) + ' bytes')
+            console.log('Downloaded ' + new Buffer(stats.size).length + ' bytes')
         )}
     })
 })
