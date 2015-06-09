@@ -61,11 +61,15 @@ module.exports = {
                         readStream.pipe(writeStream)
                     },
                     disconnect: function(next) {
-                        if (disconnected || disconnecting) return next()
+                        if (!sftp.isConnected()) return next()
                         disconnecting = true
                         sftp.end()
                         connection.end()
                         connection.once('close', next)
+                    },
+                    isConnected: function(next) {
+                        var connected = !disconnected && !disconnecting
+                        return next && next(null, connected) || connected
                     }
                 })
 

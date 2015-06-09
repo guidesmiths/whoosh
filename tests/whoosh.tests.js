@@ -168,6 +168,32 @@ describe('whoosh', function() {
         })
     })
 
+    it('should report connection state (sync)', function(done) {
+        Whoosh.connect(config, function(err, whoosh) {
+            assert.ifError(err)
+            assert.ok(whoosh.isConnected())
+            whoosh.disconnect(function() {
+                assert.ok(!whoosh.isConnected())
+                done()
+            })
+        })
+    })
+
+    it('should report connection state (async)', function(done) {
+        Whoosh.connect(config, function(err, whoosh) {
+            assert.ifError(err)
+            async.series({
+                shouldBeConnected: whoosh.isConnected,
+                meh: whoosh.disconnect,
+                shouldBeDisconnected: whoosh.isConnected
+            }, function(err, results) {
+                assert.ok(results.shouldBeConnected)
+                assert.ok(!results.shouldBeDisconnected)
+                done()
+            })
+        })
+    })
+
     function getRemotePath(filename) {
         return 'files/uploads/' + (filename ? filename.replace(/\W/g, '_') : '')
     }
