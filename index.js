@@ -11,12 +11,15 @@ module.exports = {
         var connection = new Client()
         var once = _.once(next)
         var remoteUrl = format('%s@%s:%s', config.username, config.hostname, config.port)
+        var disconnected = true
+        var disconnecting = false
 
         debug('Connecting to server %s:%s', config.hostname, config.port)
         connection.connect(_.defaults(config, { debug: ssh2Debug }))
 
         connection.on('ready', function() {
             debug('Connected to server %s', remoteUrl)
+            disconnected = false
 
             connection.sftp(function(err, sftp) {
 
@@ -58,7 +61,8 @@ module.exports = {
                         readStream.pipe(writeStream)
                     },
                     disconnect: function(next) {
-                        if (connection._sock.destroyed) return next()
+                        if (disconnected || disconnecting) return next()
+                        disconnecting = true
                         sftp.end()
                         connection.end()
                         connection.once('close', next)
@@ -76,10 +80,14 @@ module.exports = {
 
         connection.on('end', function() {
             debug('Connection to %s:%s ended', config.hostname, config.port)
+            disconnected = true
+            disconnecting = false
         })
 
         connection.on('close', function() {
             debug('Connection to %s:%s closed', config.hostname, config.port)
+            disconnected = true
+            disconnecting = false
         })
     }
 }

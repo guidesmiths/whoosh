@@ -159,6 +159,15 @@ describe('whoosh', function() {
         })
     })
 
+    it('should tolerate repeated disconnects', function(done) {
+        Whoosh.connect(config, function(err, whoosh) {
+            assert.ifError(err)
+            async.times(10, function(index, next) {
+                whoosh.disconnect(next)
+            }, done)
+        })
+    })
+
     function getRemotePath(filename) {
         return 'files/uploads/' + (filename ? filename.replace(/\W/g, '_') : '')
     }
