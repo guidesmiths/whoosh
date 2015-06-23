@@ -10,15 +10,15 @@ module.exports = {
 
         var connection = new Client()
         var once = _.once(next)
-        var remoteUrl = format('%s@%s:%s', config.username, config.hostname, config.port)
+        var connectionUrl = format('%s@%s:%s', config.username, config.hostname, config.port)
         var disconnected = true
         var disconnecting = false
 
-        debug('Connecting to server %s', remoteUrl)
+        debug('Connecting to server %s', connectionUrl)
         connection.connect(_.defaults(config, { debug: ssh2Debug }))
 
         connection.on('ready', function() {
-            debug('Connected to server %s', remoteUrl)
+            debug('Connected to server %s', connectionUrl)
             disconnected = false
 
             connection.sftp(function(err, sftp) {
@@ -34,6 +34,8 @@ module.exports = {
 
                         var once = _.once(next)
                         var content = ''
+
+                        debug('Creating read stream to %s/%s', connectionUrl, remotePath)
                         var readStream = sftp.createReadStream(remotePath, options)
                         var before = new Date().getTime()
 
@@ -42,7 +44,8 @@ module.exports = {
                         }).on('end', function() {
                             var duration = new Date().getTime() - before
                             var bytes = countBytes(content)
-                            debug('Downloaded %d bytes from %s in %dms', bytes, remoteUrl, duration)
+
+                            debug('Downloaded %d bytes from %s/%s in %dms', bytes, connectionUrl, remotePath, duration)
                             once(null, content, { bytes: bytes, duration: duration })
                         }).on('error', once)
                     },
@@ -50,13 +53,16 @@ module.exports = {
                         if (arguments.length === 3) return sftp.putContent(content, remotePath, {}, arguments[2])
 
                         var once = _.once(next)
+
+                        debug('Creating write stream to %s/%s', connectionUrl, remotePath)
                         var writeStream = sftp.createWriteStream(remotePath)
                         var before = new Date().getTime()
 
                         writeStream.on('close', function() {
                             var duration = new Date().getTime() - before
                             var bytes = countBytes(content)
-                            debug('Uploaded %d bytes to %s/%s in %sms', bytes, remoteUrl, remotePath, duration)
+
+                            debug('Uploaded %d bytes to %s/%s in %sms', bytes, connectionUrl, remotePath, duration)
                             once(null, { bytes: bytes, duration: duration })
                         }).on('error', once)
 
