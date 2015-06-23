@@ -76,6 +76,7 @@ describe('whoosh', function() {
             assert.ifError(err)
             fs.writeFileSync(getLocalPath(title), 'test message')
             whoosh.getContent(getRemotePath(title), function(err, content, stats) {
+                assert.ifError(err)
                 assert.equal('test message', content)
                 assert.equal(stats.bytes, 12)
                 assert.ok(stats.duration > 0)
@@ -103,6 +104,7 @@ describe('whoosh', function() {
             assert.ifError(err)
             fs.writeFileSync(getLocalPath(title), new Buffer('test message'))
             whoosh.getContent(getRemotePath(title), function(err, content) {
+                assert.ifError(err)
                 assert.equal('test message', content)
                 whoosh.disconnect(done)
             })
@@ -190,6 +192,7 @@ describe('whoosh', function() {
                 meh: whoosh.disconnect,
                 shouldBeDisconnected: whoosh.isConnected
             }, function(err, results) {
+                assert.ifError(err)
                 assert.ok(results.shouldBeConnected)
                 assert.ok(!results.shouldBeDisconnected)
                 done()
