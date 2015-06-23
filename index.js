@@ -14,7 +14,7 @@ module.exports = {
         var disconnected = true
         var disconnecting = false
 
-        debug('Connecting to server %s:%s', config.hostname, config.port)
+        debug('Connecting to server %s', remoteUrl)
         connection.connect(_.defaults(config, { debug: ssh2Debug }))
 
         connection.on('ready', function() {
@@ -56,7 +56,7 @@ module.exports = {
                         writeStream.on('close', function() {
                             var duration = new Date().getTime() - before
                             var bytes = countBytes(content)
-                            debug('Uploaded %d bytes to %s in %sms', bytes, remoteUrl, duration)
+                            debug('Uploaded %d bytes to %s/%s in %sms', bytes, remoteUrl, remotePath, duration)
                             once(null, { bytes: bytes, duration: duration })
                         }).on('error', once)
 
