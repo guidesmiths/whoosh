@@ -73,7 +73,7 @@ module.exports = {
                     },
                     exists: function(remotePath, next) {
                         sftp.stat(remotePath, function(err, stat) {
-                            if (err && err.message !== 'No such file') return next(err)
+                            if (err && err.code !== 2) return next(err)
                             return next(null, !!stat)
                         })
                     },
