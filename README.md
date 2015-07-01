@@ -75,6 +75,19 @@ Whoosh.connect(config, function(err, whoosh) {
 ```
 The options parameter is is optional. When specified it is passed straight through to [SFTPStream's](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md) ```createWriteStream``` method.
 
+#### exists
+Reports on whether a remote file exists
+```js
+Whoosh.connect(config, function(err, whoosh) {
+    if (err) return bail(err)
+    whoosh.exists('some/remote/file', function(err, exists) {
+        whoosh.disconnect(function() {
+            if (err) return bail(err)
+            console.log(exists ? 'File exists' : 'File does not exist')
+        )}
+    })
+})
+
 #### Everything else
 
 The ```whoosh``` object is just a decorated instance of [SFTPStream](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md) so all the other SFTP methods are available. e.g.
