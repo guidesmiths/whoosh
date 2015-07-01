@@ -71,6 +71,12 @@ module.exports = {
                         readStream.push(null)
                         readStream.pipe(writeStream)
                     },
+                    exists: function(remotePath, next) {
+                        sftp.stat(remotePath, function(err, stat) {
+                            if (err && err.message !== 'No such file') return next(err)
+                            return next(null, !!stat)
+                        })
+                    },
                     disconnect: function(next) {
                         if (!sftp.isConnected()) return next()
                         disconnecting = true

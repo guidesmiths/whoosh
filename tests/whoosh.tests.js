@@ -200,6 +200,45 @@ describe('whoosh', function() {
         })
     })
 
+    it('should report if a file exists', function(done) {
+        var title = this.test.title
+        Whoosh.connect(config, function(err, whoosh) {
+            assert.ifError(err)
+            whoosh.putContent('test message', getRemotePath(title), function(err, stats) {
+                assert.ifError(err)
+                whoosh.exists(getRemotePath(title), function(err, exists) {
+                    assert.ifError(err)
+                    assert.equal(exists, true)
+                    whoosh.disconnect(done)
+                })
+            })
+        })
+    })
+
+    it('should report if a file does not exist', function(done) {
+        var title = this.test.title
+        Whoosh.connect(config, function(err, whoosh) {
+            assert.ifError(err)
+            whoosh.exists(getRemotePath(title), function(err, exists) {
+                assert.ifError(err)
+                assert.equal(exists, false)
+                whoosh.disconnect(done)
+            })
+        })
+    })
+
+    it('should not disconnect after checking if a non existent file exists', function(done) {
+        var title = this.test.title
+        Whoosh.connect(config, function(err, whoosh) {
+            assert.ifError(err)
+            whoosh.exists(getRemotePath(title), function(err, exists) {
+                assert.ifError(err)
+                assert.ok(whoosh.isConnected())
+                whoosh.disconnect(done)
+            })
+        })
+    })
+
     function getRemotePath(filename) {
         return 'files/uploads/' + (filename ? filename.replace(/\W/g, '_') : '')
     }
