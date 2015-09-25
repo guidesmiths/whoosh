@@ -87,7 +87,7 @@ Whoosh.connect(config, function(err, whoosh) {
         )}
     })
 })
-
+```
 #### Everything else
 
 The ```whoosh``` object is just a decorated instance of [SFTPStream](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md) so all the other SFTP methods are available. e.g.
