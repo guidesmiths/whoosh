@@ -78,6 +78,7 @@ module.exports = {
                         })
                     },
                     disconnect: function(next) {
+                        next = next || function () {};
                         if (!sftp.isConnected()) return next()
                         disconnecting = true
                         sftp.end()
