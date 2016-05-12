@@ -65,7 +65,7 @@ Streams the contents of a variable to a remote file
 var content = 'my content'
 Whoosh.connect(config, function(err, whoosh) {
     if (err) return bail(err)
-    whoosh.putContent('some/remote/file', content, options, function(err, stats) {
+    whoosh.putContent(content, 'some/remote/file', options, function(err, stats) {
         whoosh.disconnect(function() {
             if (err) return bail(err)
             console.log('Uploaded ' + stats.bytes + ' bytes in ' + stats.duration + 'ms')
