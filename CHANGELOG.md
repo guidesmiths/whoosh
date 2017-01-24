@@ -1,5 +1,8 @@
 # Change Log
 
+## [Unreleased]
+- Adding travis build
+
 ## [1.0.0]
 ### [Changed]
 - General Tidy Up
