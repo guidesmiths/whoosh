@@ -11,9 +11,9 @@ Whoosh is an ultra thin wrapper for [SFTPStream](https://github.com/mscdex/ssh2-
 [![Dependency Status](https://david-dm.org/guidesmiths/whoosh.svg)](https://david-dm.org/guidesmiths/whoosh)
 [![devDependencies Status](https://david-dm.org/guidesmiths/whoosh/dev-status.svg)](https://david-dm.org/guidesmiths/whoosh?type=dev)
 
-### API
+## API
 
-#### connect(&lt;params;&gt;, &lt;cb&gt;)
+### connect(&lt;params;&gt;, &lt;cb&gt;)
 Connect to an sftp server
 ```js
 Whoosh.connect({
@@ -27,7 +27,7 @@ Whoosh.connect({
 ```
 See the [ssh2 client docs](https://github.com/mscdex/ssh2#client-methods) for a full list of connection parameters
 
-#### disconnect(&lt;cb;&gt;)
+### disconnect(&lt;cb&gt;)
 Disconnect from an sftp server
 ```
 Whoosh.connect(config, (err, client) => {
@@ -37,7 +37,7 @@ Whoosh.connect(config, (err, client) => {
 })
 ```
 
-#### isConnected()
+### isConnected()
 Returns true when connected to the SFTP server. Useful for checking whether a previously established connection has dropped.
 ```js
 Whoosh.connect(config, (err, client) => {
@@ -46,7 +46,7 @@ Whoosh.connect(config, (err, client) => {
 })
 ```
 
-#### isConnected(&lt;cb;&gt;)
+### isConnected(&lt;cb&gt;)
 Asynchronous version of isConnected
 ```js
 Whoosh.connect(config, (err, client) => {
@@ -57,7 +57,7 @@ Whoosh.connect(config, (err, client) => {
 })
 ```
 
-#### getContent(&lt;path&gt;, [&lt;options&gt;], &lt;cb&gt;)
+### getContent(&lt;path&gt;, [&lt;options&gt;], &lt;cb&gt;)
 Streams the contents of a remote file to a variable
 ```js
 Whoosh.connect(config, (err, client) => {
@@ -72,7 +72,7 @@ Whoosh.connect(config, (err, client) => {
 ```
 The options parameter is is optional. When specified it is passed straight through to [SFTPStream's](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md) ```createReadStream``` method.
 
-#### putContent(&lt;content;&gt;, &lt;path&gt;, [&lt;options&gt;], &lt;cb&gt;)
+### putContent(&lt;content;&gt;, &lt;path&gt;, [&lt;options&gt;], &lt;cb&gt;)
 Streams the contents of a variable to a remote file
 ```js
 Whoosh.connect(config, (err, client) => {
@@ -87,7 +87,7 @@ Whoosh.connect(config, (err, client) => {
 ```
 The options parameter is is optional. When specified it is passed straight through to [SFTPStream's](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md) ```createWriteStream``` method.
 
-#### exists
+### exists
 Reports on whether a remote file exists
 ```js
 Whoosh.connect(config, function(err, client) {
@@ -101,7 +101,7 @@ Whoosh.connect(config, function(err, client) {
 })
 ```
 
-#### Everything else
+## Everything else
 
 The ```client``` object is just a decorated instance of [SFTPStream](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md) so all the other SFTP methods are available. e.g.
 ```js
