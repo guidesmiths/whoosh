@@ -29,6 +29,7 @@ See the [ssh2 client docs](https://github.com/mscdex/ssh2#client-methods) for a 
 
 #### disconnect(&lt;cb;&gt;)
 Disconnect from an sftp server
+```
 Whoosh.connect(config, (err, client) => {
     client.disconnect(() => {
         // Disconnected
