@@ -102,15 +102,18 @@ module.exports = {
 
         connection.on('end', function() {
             debug('Connection to %s:%s ended', config.hostname, config.port)
-            disconnected = true
-            disconnecting = false
+            disconnect()
         })
 
         connection.on('close', function() {
             debug('Connection to %s:%s closed', config.hostname, config.port)
+            disconnect()
+        })
+
+        function disconnect() {
             disconnected = true
             disconnecting = false
-        })
+        }
     }
 }
 
