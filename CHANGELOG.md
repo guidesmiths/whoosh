@@ -1,6 +1,6 @@
 # Change Log
 
-## [Unreleased]
+## [1.1.0]
 - Adding travis build
 
 ## [1.0.0]
