@@ -4,10 +4,13 @@
   "description": "A streaming sftp client",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --recursive tests",
-    "lint": "node_modules/.bin/eslint .",
+    "test": "mocha",
+    "lint": "eslint .",
+    "istanbul": "istanbul cover --report html --report lcov _mocha",
+    "codeclimate": "codeclimate-test-reporter < coverage/lcov.info",
     "precommit": "npm run lint",
-    "prepush": "npm test"
+    "prepush": "npm test",
+    "docker": "docker-compose up -d"
   },
   "keywords": [
     "sftp",
@@ -17,17 +20,20 @@
   "author": "GuideSmiths",
   "license": "ISC",
   "devDependencies": {
-    "async": "^1.2.1",
-    "eslint": "^0.23.0",
-    "eslint-config-imperative": "0.0.6",
-    "fs-extra": "^0.18.4",
-    "husky": "^0.8.1",
-    "mocha": "^2.2.5"
+    "async": "^2.1.4",
+    "chai": "^3.5.0",
+    "codeclimate-test-reporter": "^0.4.0",
+    "eslint": "^3.12.2",
+    "eslint-config-imperative": "^1.0.0",
+    "eslint-plugin-imperative": "^1.0.0",
+    "fs-extra": "^2.0.0",
+    "husky": "^0.13.1",
+    "mocha": "^3.2.0"
   },
   "dependencies": {
-    "debug": "^2.2.0",
-    "lodash": "^3.9.3",
-    "ssh2": "^0.4.8"
+    "debug": "^2.6.0",
+    "lodash": "^4.17.4",
+    "ssh2": "^0.5.4"
   },
   "directories": {
     "test": "tests"
@@ -39,5 +45,5 @@
   "bugs": {
     "url": "https://github.com/guidesmiths/whoosh/issues"
   },
-  "homepage": "https://github.com/guidesmiths/whoosh"
+  "homepage": "https://guidesmiths.github.io/whoosh/"
 }

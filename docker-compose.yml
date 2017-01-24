@@ -1,8 +1,19 @@
-sftp:
-  image: atmoz/sftp
-  command: fred:password:1001
-  volumes:
-   - tests/volumes/sftp/etc/ssh/sshd_config:/etc/ssh/sshd_config:rw
-   - tests/volumes/sftp/home/fred/files:/home/fred/files:rw
-  ports:
-   - "10022:22"
+version: '2'
+
+services:
+
+  postgres:
+    image: atmoz/sftp:alpine
+    container_name: sftp
+    command: fred:password:1001
+    ports:
+     - '10022:22'
+    volumes:
+      - $PWD/test/volumes/sftp/etc/ssh/sshd_config:/etc/ssh/sshd_config:rw
+      - $PWD/test/volumes/sftp/home/fred/files:/home/fred/files:rw
+
+networks:
+  default:
+    external:
+      name: local
+

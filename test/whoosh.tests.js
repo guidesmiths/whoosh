@@ -32,7 +32,7 @@ describe('whoosh', function() {
     it('should report connection errors', function(done) {
         Whoosh.connect(_.defaults({ hostname: 'this-server-should-not-resolve-12asdf32'}, config), function(err, whoosh) {
             assert.ok(err, 'Connection error was not reported')
-            assert.equal(err.message, 'getaddrinfo ENOTFOUND')
+            assert.ok(/getaddrinfo ENOTFOUND/.test(err.message))
             done()
         })
     })
