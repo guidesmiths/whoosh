@@ -12,7 +12,7 @@ Whoosh is an ultra thin wrapper for [SFTPStream](https://github.com/mscdex/ssh2-
 
 ## API
 
-### connect(&lt;params;&gt;, &lt;cb&gt;)
+### connect(&lt;params&gt;, &lt;cb&gt;)
 Connect to an sftp server
 ```js
 Whoosh.connect({
