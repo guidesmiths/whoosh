@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.1.2]
+### Changed
+- Update dependencies
+
 ## [1.1.1]
 ### Changed
 - Fixing typo in readme
