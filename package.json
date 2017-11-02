@@ -20,20 +20,20 @@
   "author": "GuideSmiths",
   "license": "ISC",
   "devDependencies": {
-    "async": "^2.1.4",
-    "chai": "^3.5.0",
-    "codeclimate-test-reporter": "^0.4.0",
-    "eslint": "^3.12.2",
-    "eslint-config-imperative": "^1.0.0",
-    "eslint-plugin-imperative": "^1.0.0",
-    "fs-extra": "^2.0.0",
-    "husky": "^0.13.1",
-    "mocha": "^3.2.0"
+    "async": "^2.5.0",
+    "chai": "^4.1.2",
+    "codeclimate-test-reporter": "^0.5.0",
+    "eslint": "^4.10.0",
+    "eslint-config-imperative": "^2.0.1",
+    "eslint-plugin-imperative": "^2.0.0",
+    "fs-extra": "^4.0.2",
+    "husky": "^0.14.3",
+    "mocha": "^4.0.1"
   },
   "dependencies": {
-    "debug": "^2.6.0",
+    "debug": "^3.1.0",
     "lodash": "^4.17.4",
-    "ssh2": "^0.5.4"
+    "ssh2": "^0.5.5"
   },
   "directories": {
     "test": "tests"
