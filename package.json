@@ -7,9 +7,9 @@
     "test": "mocha",
     "lint": "eslint .",
     "istanbul": "istanbul cover --report html --report lcov _mocha",
-    "codeclimate": "codeclimate-test-reporter < coverage/lcov.info",
-    "precommit": "npm run lint",
-    "prepush": "npm test",
+    "codeclimate": "(test -e .codeclimate && npm run istanbul && source .codeclimate && codeclimate-test-reporter < coverage/lcov.info) || echo skipping codeclimate",
+    "precommit": "npm run lint && npm test",
+    "prepush": "npm run codeclimate",
     "docker": "docker-compose up -d"
   },
   "keywords": [

@@ -37,3 +37,4 @@ node_modules
 # JavaScript symbol cache
 
 .ntvs_analysis.dat
+.codeclimate
