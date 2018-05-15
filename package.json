@@ -7,7 +7,7 @@
     "test": "mocha",
     "lint": "eslint .",
     "istanbul": "istanbul cover --report html --report lcov _mocha",
-    "codeclimate": "(test -e .codeclimate && npm run istanbul && source .codeclimate && codeclimate-test-reporter < coverage/lcov.info) || echo skipping codeclimate",
+    "codeclimate": "(test -e .codeclimate && npm run istanbul && source .codeclimate) || echo skipping codeclimate",
     "precommit": "npm run lint && npm test",
     "prepush": "npm run codeclimate",
     "docker": "docker-compose up -d"
@@ -20,21 +20,20 @@
   "author": "GuideSmiths",
   "license": "ISC",
   "devDependencies": {
-    "async": "^2.5.0",
+    "async": "^2.6.0",
     "chai": "^4.1.2",
-    "codeclimate-test-reporter": "^0.5.0",
-    "eslint": "^4.10.0",
+    "eslint": "^4.19.1",
     "eslint-config-imperative": "^2.0.1",
     "eslint-plugin-imperative": "^2.0.0",
-    "fs-extra": "^4.0.2",
+    "fs-extra": "^4.0.3",
     "husky": "^0.14.3",
     "istanbul": "^0.4.5",
-    "mocha": "^4.0.1"
+    "mocha": "^5.1.1"
   },
   "dependencies": {
     "debug": "^3.1.0",
-    "lodash": "^4.17.4",
-    "ssh2": "^0.5.5"
+    "lodash": "^4.17.10",
+    "ssh2": "^0.6.1"
   },
   "directories": {
     "test": "tests"
