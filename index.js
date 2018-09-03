@@ -95,6 +95,14 @@ module.exports = {
             })
         })
 
+        connection.on('keyboard-interactive', function (name, descr, lang, prompts, finish) {
+            if (_.some(prompts, { prompt: 'Password: ', echo: false })) {
+                return finish([config.password]);
+            } else {
+                return finish(['']);
+            }
+        });
+
         connection.on('error', function(err) {
             debug('Received error from connection: %s:%s. Original error was: ', config.hostname, config.port, err.message)
             once(err)
