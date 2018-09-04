@@ -115,5 +115,26 @@ Whoosh.connect(config, function(err, client) {
 })
 ```
 
+### keyboard interactive
+If the server requires keyboard interactive authentication you can configure this as follows...
 
-
+```js
+Whoosh.connect({
+    hostname: 'sftp.example.com',
+    port: 22,
+    tryKeyboard: true,
+    challenges: [
+        {
+            pattern: /^Username:$/,
+            response: 'fred'
+        },
+        {
+            pattern: /^Password:$/,
+            response: 'secret'
+        }
+    ]
+}, (err, client) => {
+    // profit :)
+})
+```
+The exact challenge patterns will be server dependent.

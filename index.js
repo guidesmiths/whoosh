@@ -95,6 +95,18 @@ module.exports = {
             })
         })
 
+        connection.on('keyboard-interactive', function (name, instructions, lang, prompts, finish) {
+            var responses = _.map(prompts, function(entry) {
+                var challenge = _.find(config.challenges, function(challenge) {
+                    return challenge.pattern.test(entry.prompt)
+                });
+                if (challenge) return challenge.response;
+                debug('No response for challenge: %s', entry.prompt)
+                return ''
+            })
+            finish(responses);
+        });
+
         connection.on('error', function(err) {
             debug('Received error from connection: %s:%s. Original error was: ', config.hostname, config.port, err.message)
             once(err)
@@ -120,4 +132,3 @@ module.exports = {
 function countBytes(content) {
     return Buffer.isBuffer(content) ? content.length : Buffer.byteLength(content)
 }
-
