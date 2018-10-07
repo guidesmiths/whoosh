@@ -20,19 +20,19 @@
   "author": "GuideSmiths",
   "license": "ISC",
   "devDependencies": {
-    "async": "^2.6.0",
-    "chai": "^4.1.2",
-    "eslint": "^4.19.1",
-    "eslint-config-imperative": "^2.0.1",
-    "eslint-plugin-imperative": "^2.0.0",
-    "fs-extra": "^4.0.3",
-    "husky": "^0.14.3",
+    "async": "^2.6.1",
+    "chai": "^4.2.0",
+    "eslint": "^5.6.1",
+    "eslint-config-imperative": "^2.1.0",
+    "eslint-plugin-imperative": "^2.1.0",
+    "fs-extra": "^7.0.0",
+    "husky": "^1.1.1",
     "istanbul": "^0.4.5",
-    "mocha": "^5.1.1"
+    "mocha": "^5.2.0"
   },
   "dependencies": {
-    "debug": "^3.1.0",
-    "lodash": "^4.17.10",
+    "debug": "^4.0.1",
+    "lodash": "^4.17.11",
     "ssh2": "^0.6.1"
   },
   "directories": {
