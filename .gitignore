@@ -38,3 +38,4 @@ node_modules
 
 .ntvs_analysis.dat
 .codeclimate
+.nyc_output
