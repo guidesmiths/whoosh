@@ -10,6 +10,9 @@ jobs:
         image: atmoz/sftp:alpine
         ports:
           - 10022:22
+        volumes:
+          - ${{ github.workspace }}/test/volumes/sftp/etc/ssh/ssd/config:/etc/ssh/ssd_config
+          - ${{ github.workspace }}/test/volumes/sftp/home/fred/files:/home/fred/files
     strategy:
       matrix:
         node-version: [14.x, 16.x, 18.x]
