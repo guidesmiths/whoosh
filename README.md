@@ -1,6 +1,6 @@
 # Whoosh
 
-Whoosh is an ultra thin wrapper for [SFTPStream](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md), with the additional benefit of being able to easily stream in memory content to/from an SFTP server.
+Whoosh is an ultra thin wrapper for [SFTPStream](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md), with the additional benefit of being able to easily transfer in memory content to/from an SFTP server.
 
 [![NPM version](https://img.shields.io/npm/v/whoosh.svg?style=flat-square)](https://www.npmjs.com/package/whoosh)
 [![NPM downloads](https://img.shields.io/npm/dm/whoosh.svg?style=flat-square)](https://www.npmjs.com/package/whoosh)
