@@ -1,11 +1,12 @@
-var assert = require('assert');
-var _ = require('lodash');
-var async = require('async');
-var fs = require('fs-extra');
-var crypto = require('crypto');
-var Whoosh = require('..');
+const assert = require('assert');
+const { ok, ifError, strictEqual: eq } = require('assert');
+const _ = require('lodash');
+const async = require('async');
+const fs = require('fs-extra');
+const crypto = require('crypto');
+const Whoosh = require('..');
 
-describe('whoosh', function () {
+describe('whoosh', () => {
   beforeEach(nuke);
 
   after(nuke);
@@ -14,124 +15,118 @@ describe('whoosh', function () {
     async.series([fs.remove.bind(fs, getLocalPath()), fs.mkdirp.bind(fs, getLocalPath()), fs.chmod.bind(fs, getLocalPath(), '0777')], next);
   }
 
-  var config = {
+  const config = {
     hostname: 'localhost',
     port: 10022,
     username: 'fred',
     password: 'password',
   };
 
-  it('should report connection errors', function (t, done) {
-    Whoosh.connect(_.defaults({ hostname: 'this-server-should-not-resolve-12asdf32' }, config), function (err, whoosh) {
-      assert.ok(err, 'Connection error was not reported');
-      assert.ok(/getaddrinfo ENOTFOUND/.test(err.message));
+  it('should report connection errors', (t, done) => {
+    Whoosh.connect(_.defaults({ hostname: 'this-server-should-not-resolve-12asdf32' }, config), (err, whoosh) => {
+      ok(err, 'Connection error was not reported');
+      ok(/getaddrinfo ENOTFOUND/.test(err.message));
       done();
     });
   });
 
-  it('should report connection errors', function (t, done) {
-    Whoosh.connect(_.defaults({ password: 'bad' }, config), function (err, whoosh) {
-      assert.ok(err, 'Connection error was not reported');
-      assert.equal(err.message, 'All configured authentication methods failed');
+  it('should report connection errors', (t, done) => {
+    Whoosh.connect(_.defaults({ password: 'bad' }, config), (err, whoosh) => {
+      ok(err, 'Connection error was not reported');
+      eq(err.message, 'All configured authentication methods failed');
       done();
     });
   });
 
-  it('should connect successfully', function (t, done) {
-    Whoosh.connect(config, function (err, whoosh) {
-      assert.ifError(err);
-      whoosh.stat('.', function (err, stats) {
-        assert.ifError(err);
-        assert.ok(stats);
+  it('should connect successfully', (t, done) => {
+    Whoosh.connect(config, (err, whoosh) => {
+      ifError(err);
+      whoosh.stat('.', (err, stats) => {
+        ifError(err);
+        ok(stats);
         whoosh.disconnect(done);
       });
     });
   });
 
-  it('should upload text content', function (t, done) {
-    var title = t.name;
-    Whoosh.connect(config, function (err, whoosh) {
-      assert.ifError(err);
-      whoosh.putContent('test message', getRemotePath(title), function (err, stats) {
-        assert.ifError(err);
-        assert.equal('test message', fs.readFileSync(getLocalPath(title)).toString());
-        assert.equal(stats.bytes, 12);
-        assert.ok(stats.duration > 0);
+  it('should upload text content', (t, done) => {
+    Whoosh.connect(config, (err, whoosh) => {
+      ifError(err);
+      whoosh.putContent('test message', getRemotePath(t.name), (err, stats) => {
+        ifError(err);
+        eq('test message', fs.readFileSync(getLocalPath(t.name)).toString());
+        eq(stats.bytes, 12);
+        ok(stats.duration > 0);
         whoosh.disconnect(done);
       });
     });
   });
 
-  it('should download text content', function (t, done) {
-    var title = t.name;
-    Whoosh.connect(config, function (err, whoosh) {
-      assert.ifError(err);
-      fs.writeFileSync(getLocalPath(title), 'test message');
-      whoosh.getContent(getRemotePath(title), function (err, content, stats) {
-        assert.ifError(err);
-        assert.equal('test message', content);
-        assert.equal(stats.bytes, 12);
-        assert.ok(stats.duration > 0);
+  it('should download text content', (t, done) => {
+    Whoosh.connect(config, (err, whoosh) => {
+      ifError(err);
+      fs.writeFileSync(getLocalPath(t.name), 'test message');
+      whoosh.getContent(getRemotePath(t.name), (err, content, stats) => {
+        ifError(err);
+        eq('test message', content);
+        eq(stats.bytes, 12);
+        ok(stats.duration > 0);
         whoosh.disconnect(done);
       });
     });
   });
 
-  it('should upload binary content', function (t, done) {
-    var title = t.name;
-    Whoosh.connect(config, function (err, whoosh) {
-      assert.ifError(err);
-      whoosh.putContent(Buffer.from('test message'), getRemotePath(title), function (err, stats) {
-        assert.ifError(err);
-        assert.equal('test message', fs.readFileSync(getLocalPath(title)).toString());
-        assert.equal(stats.bytes, 12);
+  it('should upload binary content', (t, done) => {
+    Whoosh.connect(config, (err, whoosh) => {
+      ifError(err);
+      whoosh.putContent(Buffer.from('test message'), getRemotePath(t.name), (err, stats) => {
+        ifError(err);
+        eq('test message', fs.readFileSync(getLocalPath(t.name)).toString());
+        eq(stats.bytes, 12);
         whoosh.disconnect(done);
       });
     });
   });
 
-  it('should download binary content', function (t, done) {
-    var title = t.name;
-    Whoosh.connect(config, function (err, whoosh) {
-      assert.ifError(err);
-      fs.writeFileSync(getLocalPath(title), Buffer.from('test message'));
-      whoosh.getContent(getRemotePath(title), function (err, content) {
-        assert.ifError(err);
-        assert.equal('test message', content);
+  it('should download binary content', (t, done) => {
+    Whoosh.connect(config, (err, whoosh) => {
+      ifError(err);
+      fs.writeFileSync(getLocalPath(t.name), Buffer.from('test message'));
+      whoosh.getContent(getRemotePath(t.name), (err, content) => {
+        ifError(err);
+        eq('test message', content);
         whoosh.disconnect(done);
       });
     });
   });
 
-  it('should support multiple serial operations', function (t, done) {
-    var title = t.name;
-    Whoosh.connect(config, function (err, whoosh) {
-      assert.ifError(err);
+  it('should support multiple serial operations', (t, done) => {
+    Whoosh.connect(config, (err, whoosh) => {
+      ifError(err);
       async.series(
         {
-          a: whoosh.putContent.bind(whoosh, 'test message 1', getRemotePath(title + '_1')),
-          b: whoosh.putContent.bind(whoosh, 'test message 2', getRemotePath(title + '_2')),
-          c: whoosh.putContent.bind(whoosh, 'test message 3', getRemotePath(title + '_3')),
+          a: whoosh.putContent.bind(whoosh, 'test message 1', getRemotePath(t.name + '_1')),
+          b: whoosh.putContent.bind(whoosh, 'test message 2', getRemotePath(t.name + '_2')),
+          c: whoosh.putContent.bind(whoosh, 'test message 3', getRemotePath(t.name + '_3')),
           list: whoosh.readdir.bind(whoosh, getRemotePath()),
         },
-        function (err, results) {
-          assert.ifError(err);
-          assert.equal(results.list.length, 3);
+        (err, results) => {
+          ifError(err);
+          eq(results.list.length, 3);
           whoosh.disconnect(done);
         }
       );
     });
   });
 
-  it('should upload large files', function (t, done) {
-    var title = t.name;
-    var content = crypto.pseudoRandomBytes(1024 * 1024).toString('hex');
+  it('should upload large files', (t, done) => {
+    const content = crypto.pseudoRandomBytes(1024 * 1024).toString('hex');
 
-    Whoosh.connect(config, function (err, whoosh) {
-      assert.ifError(err);
-      whoosh.putContent(content, getRemotePath(title), function (err) {
-        assert.ifError(err);
-        assert.equal(content, fs.readFileSync(getLocalPath(title)).toString());
+    Whoosh.connect(config, (err, whoosh) => {
+      ifError(err);
+      whoosh.putContent(content, getRemotePath(t.name), (err) => {
+        ifError(err);
+        eq(content, fs.readFileSync(getLocalPath(t.name)).toString());
         whoosh.disconnect(done);
       });
     });
@@ -139,25 +134,24 @@ describe('whoosh', function () {
 
   it(
     'should upload a lot of files',
-    function (t, done) {
-      var title = t.name;
-      var content = crypto.pseudoRandomBytes(1024).toString('hex');
+    (t, done) => {
+      const content = crypto.pseudoRandomBytes(1024).toString('hex');
 
-      Whoosh.connect(config, function (err, whoosh) {
-        assert.ifError(err);
+      Whoosh.connect(config, (err, whoosh) => {
+        ifError(err);
         async.timesLimit(
           1000,
           50,
-          function (index, next) {
-            whoosh.putContent(content, getRemotePath(title + '_' + index), next);
+          (index, next) => {
+            whoosh.putContent(content, getRemotePath(t.name + '_' + index), next);
           },
-          function (err) {
-            assert.ifError(err);
-            whoosh.readdir(getRemotePath(), function (err, list) {
-              assert.ifError(err);
-              assert.equal(list.length, 1000);
-              assert.ok(
-                !_.find(list, function (stat) {
+          (err) => {
+            ifError(err);
+            whoosh.readdir(getRemotePath(), (err, list) => {
+              ifError(err);
+              eq(list.length, 1000);
+              ok(
+                !_.find(list, (stat) => {
                   return stat.attrs.size !== content.length;
                 }),
                 'File was corrupted during upload'
@@ -171,12 +165,12 @@ describe('whoosh', function () {
     { timeout: 20000 }
   );
 
-  it('should tolerate repeated disconnects', function (t, done) {
-    Whoosh.connect(config, function (err, whoosh) {
-      assert.ifError(err);
+  it('should tolerate repeated disconnects', (t, done) => {
+    Whoosh.connect(config, (err, whoosh) => {
+      ifError(err);
       async.times(
         10,
-        function (index, next) {
+        (index, next) => {
           whoosh.disconnect(next);
         },
         done
@@ -184,70 +178,67 @@ describe('whoosh', function () {
     });
   });
 
-  it('should report connection state (sync)', function (t, done) {
-    Whoosh.connect(config, function (err, whoosh) {
-      assert.ifError(err);
-      assert.ok(whoosh.isConnected());
+  it('should report connection state (sync)', (t, done) => {
+    Whoosh.connect(config, (err, whoosh) => {
+      ifError(err);
+      ok(whoosh.isConnected());
       whoosh.disconnect(function () {
-        assert.ok(!whoosh.isConnected());
+        ok(!whoosh.isConnected());
         done();
       });
     });
   });
 
-  it('should report connection state (async)', function (t, done) {
-    Whoosh.connect(config, function (err, whoosh) {
-      assert.ifError(err);
+  it('should report connection state (async)', (t, done) => {
+    Whoosh.connect(config, (err, whoosh) => {
+      ifError(err);
       async.series(
         {
           shouldBeConnected: whoosh.isConnected,
           meh: whoosh.disconnect,
           shouldBeDisconnected: whoosh.isConnected,
         },
-        function (err, results) {
-          assert.ifError(err);
-          assert.ok(results.shouldBeConnected);
-          assert.ok(!results.shouldBeDisconnected);
+        (err, results) => {
+          ifError(err);
+          ok(results.shouldBeConnected);
+          ok(!results.shouldBeDisconnected);
           done();
         }
       );
     });
   });
 
-  it('should report if a file exists', function (t, done) {
-    var title = t.name;
-    Whoosh.connect(config, function (err, whoosh) {
-      assert.ifError(err);
-      whoosh.putContent('test message', getRemotePath(title), function (err, stats) {
-        assert.ifError(err);
-        whoosh.exists(getRemotePath(title), function (err, exists) {
-          assert.ifError(err);
-          assert.equal(exists, true);
+  it('should report if a file exists', (t, done) => {
+    Whoosh.connect(config, (err, whoosh) => {
+      ifError(err);
+      whoosh.putContent('test message', getRemotePath(t.name), (err, stats) => {
+        ifError(err);
+        whoosh.exists(getRemotePath(t.name), (err, exists) => {
+          ifError(err);
+          eq(exists, true);
           whoosh.disconnect(done);
         });
       });
     });
   });
 
-  it('should report if a file does not exist', function (t, done) {
-    var title = t.name;
-    Whoosh.connect(config, function (err, whoosh) {
-      assert.ifError(err);
-      whoosh.exists(getRemotePath(title), function (err, exists) {
-        assert.ifError(err);
-        assert.equal(exists, false);
+  it('should report if a file does not exist', (t, done) => {
+    Whoosh.connect(config, (err, whoosh) => {
+      ifError(err);
+      whoosh.exists(getRemotePath(t.name), (err, exists) => {
+        ifError(err);
+        eq(exists, false);
         whoosh.disconnect(done);
       });
     });
   });
 
-  it('should not disconnect after checking if a non existent file exists', function (t, done) {
-    var title = t.name;
-    Whoosh.connect(config, function (err, whoosh) {
-      assert.ifError(err);
-      whoosh.exists(getRemotePath(title), function (err, exists) {
-        assert.ifError(err);
-        assert.ok(whoosh.isConnected());
+  it('should not disconnect after checking if a non existent file exists', (t, done) => {
+    Whoosh.connect(config, (err, whoosh) => {
+      ifError(err);
+      whoosh.exists(getRemotePath(t.name), (err, exists) => {
+        ifError(err);
+        ok(whoosh.isConnected());
         whoosh.disconnect(done);
       });
     });
