@@ -23,7 +23,7 @@
   "author": "GuideSmiths",
   "license": "ISC",
   "devDependencies": {
-    "async": "^2.6.2",
+    "async": "^3.2.4",
     "chai": "^4.2.0",
     "eslint": "^5.16.0",
     "eslint-config-imperative": "^2.1.0",
