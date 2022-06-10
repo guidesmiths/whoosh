@@ -5,16 +5,6 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    services:
-      sftp:
-        image: atmoz/sftp:alpine
-        ports:
-          - 10022:22
-        env:
-          SFTP_USERS: fred:password:1001
-        volumes:
-          # - ${{ github.workspace }}/test/volumes/sftp/etc/ssh/ssd/config:/etc/ssh/ssd_config
-          - /var/sftp/home/fred/files:/home/fred/files
     strategy:
       matrix:
         node-version: [14.x, 16.x, 18.x]
@@ -25,4 +15,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run prettier
+      - run: docker run -d -v $(pwd)/test/volumes/sftp/etc/ssh/sshd_config:/etc/ssh/sshd_config:rw -v $(pwd)/test/volumes/sftp/home/fred/files:/home/fred/files:rw -p 10022:22 atmoz/sftp:alpine fred:password:1001
       - run: npm test
