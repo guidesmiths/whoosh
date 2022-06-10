@@ -4,12 +4,9 @@ Whoosh is an ultra thin wrapper for [SFTPStream](https://github.com/mscdex/ssh2-
 
 [![NPM version](https://img.shields.io/npm/v/whoosh.svg?style=flat-square)](https://www.npmjs.com/package/whoosh)
 [![NPM downloads](https://img.shields.io/npm/dm/whoosh.svg?style=flat-square)](https://www.npmjs.com/package/whoosh)
-[![Build Status](https://img.shields.io/travis/guidesmiths/whoosh/master.svg)](https://travis-ci.org/guidesmiths/whoosh)
 [![Code Climate](https://codeclimate.com/github/guidesmiths/whoosh/badges/gpa.svg)](https://codeclimate.com/github/guidesmiths/whoosh)
 [![Test Coverage](https://codeclimate.com/github/guidesmiths/whoosh/badges/coverage.svg)](https://codeclimate.com/github/guidesmiths/whoosh/coverage)
-[![Code Style](https://img.shields.io/badge/code%20style-imperative-brightgreen.svg)](https://github.com/guidesmiths/eslint-config-imperative)
-[![Dependency Status](https://david-dm.org/guidesmiths/whoosh.svg)](https://david-dm.org/guidesmiths/whoosh)
-[![devDependencies Status](https://david-dm.org/guidesmiths/whoosh/dev-status.svg)](https://david-dm.org/guidesmiths/whoosh?type=dev)
+[![Code Style](https://img.shields.io/badge/code%20style-prettier-brightgreen.svg)](https://github.com/prettier/prettier)
 
 ## API
 
@@ -62,11 +59,11 @@ Asynchronous version of isConnected
 
 ```js
 Whoosh.connect(config, (err, client) => {
-    if (err) throw err
-    client.isConnected((err, connected) => {
-        // Check connected status here
-    )}
-})
+  if (err) throw err;
+  client.isConnected((err, connected) => {
+    // Check connected status here
+  });
+});
 ```
 
 ### getContent(&lt;path&gt;, [&lt;options&gt;], &lt;cb&gt;)
@@ -75,14 +72,14 @@ Streams the contents of a remote file to a variable
 
 ```js
 Whoosh.connect(config, (err, client) => {
-    if (err) throw err
-    client.getContent('some/remote/file', (err, content, stats) => {
-        client.disconnect(() => {
-            if (err) throw err
-            console.log(`Downloaded ${stats.bytes} bytes in ${stats.duration} ms`)
-        )}
-    })
-})
+  if (err) throw err;
+  client.getContent('some/remote/file', (err, content, stats) => {
+    client.disconnect(() => {
+      if (err) throw err;
+      console.log(`Downloaded ${stats.bytes} bytes in ${stats.duration} ms`);
+    });
+  });
+});
 ```
 
 The options parameter is is optional. When specified it is passed straight through to [SFTPStream's](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md) `createReadStream` method.
@@ -110,15 +107,15 @@ The options parameter is is optional. When specified it is passed straight throu
 Reports on whether a remote file exists
 
 ```js
-Whoosh.connect(config, function(err, client) {
-    if (err) throw err
-    client.exists('some/remote/file', (err, exists) => {
-        client.disconnect(() => {
-            if (err) throw err
-            console.log(exists ? 'File exists' : 'File does not exist')
-        )}
-    })
-})
+Whoosh.connect(config, function (err, client) {
+  if (err) throw err;
+  client.exists('some/remote/file', (err, exists) => {
+    client.disconnect(() => {
+      if (err) throw err;
+      console.log(exists ? 'File exists' : 'File does not exist');
+    });
+  });
+});
 ```
 
 ## Everything else

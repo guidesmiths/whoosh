@@ -14,6 +14,7 @@
 - Fixed deprecations
 - Only support node >= node 14
 - Remove travis build
+- Modernise javascript
 
 ## 1.4.0
 
