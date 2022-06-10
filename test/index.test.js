@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { ok, ifError, strictEqual: eq } = require('assert');
+const { match, ok, ifError, strictEqual: eq } = require('assert');
 const _ = require('lodash');
 const async = require('async');
 const fs = require('fs-extra');
@@ -25,7 +25,7 @@ describe('client', () => {
   it('should report connection errors', (t, done) => {
     Whoosh.connect(_.defaults({ hostname: 'this-server-should-not-resolve-12asdf32' }, config), (err, whoosh) => {
       ok(err, 'Connection error was not reported');
-      ok(/getaddrinfo ENOTFOUND/.test(err.message));
+      match(err.message, /getaddrinfo ENOTFOUND/);
       done();
     });
   });
