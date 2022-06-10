@@ -11,7 +11,8 @@
     "precommit": "npm run lint && npm test",
     "prepush": "npm run codeclimate",
     "docker": "docker-compose up -d",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prettier": "prettier --check ."
   },
   "keywords": [
     "sftp",
