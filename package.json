@@ -7,9 +7,6 @@
     "test": "zUnit",
     "lint": "eslint .",
     "coverage": "nyc --report html --reporter lcov --reporter text-summary zunit",
-    "codeclimate": "(test -e .codeclimate && npm run coverage && source .codeclimate) || echo skipping codeclimate",
-    "precommit": "npm run lint && npm test",
-    "prepush": "npm run codeclimate",
     "docker": "docker-compose up -d",
     "prepare": "husky install",
     "prettier": "prettier --check ."
