@@ -4,7 +4,7 @@
   "description": "A streaming sftp client",
   "main": "index.js",
   "scripts": {
-    "test": "zunit",
+    "test": "zUnit",
     "lint": "eslint .",
     "coverage": "nyc --report html --reporter lcov --reporter text-summary zunit",
     "codeclimate": "(test -e .codeclimate && npm run coverage && source .codeclimate) || echo skipping codeclimate",
