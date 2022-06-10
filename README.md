@@ -69,7 +69,7 @@ Whoosh.connect(config, (err, client) => {
 
 ### getContent(&lt;path&gt;, [&lt;options&gt;], &lt;cb&gt;)
 
-Streams the contents of a remote file to a variable
+Downloads the contents of a remote file into a variable
 
 ```js
 Whoosh.connect(config, (err, client) => {
@@ -87,7 +87,7 @@ The options parameter is is optional. When specified it is passed straight throu
 
 ### putContent(&lt;content;&gt;, &lt;path&gt;, [&lt;options&gt;], &lt;cb&gt;)
 
-Streams the contents of a variable to a remote file
+Uploads the contents of a variable to a remote file
 
 ```js
 Whoosh.connect(config, (err, client) => {
