@@ -7,7 +7,7 @@ Whoosh is an ultra thin wrapper for [SFTPStream](https://github.com/mscdex/ssh2-
 [![Code Climate](https://codeclimate.com/github/guidesmiths/whoosh/badges/gpa.svg)](https://codeclimate.com/github/guidesmiths/whoosh)
 [![Test Coverage](https://codeclimate.com/github/guidesmiths/whoosh/badges/coverage.svg)](https://codeclimate.com/github/guidesmiths/whoosh/coverage)
 [![Code Style](https://img.shields.io/badge/code%20style-prettier-brightgreen.svg)](https://github.com/prettier/prettier)
-[![Tested with](https://img.shields.io/badge/Discover-zUnit-brightgreen)](https://www.npmjs.com/package/zunit)
+[![Discover zUnit](https://img.shields.io/badge/Discover-zUnit-brightgreen)](https://www.npmjs.com/package/zunit)
 
 ## API
 
