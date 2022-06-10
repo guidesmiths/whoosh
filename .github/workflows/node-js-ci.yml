@@ -16,5 +16,5 @@ jobs:
       - run: npm ci
       - run: npm run prettier
       - run: docker run -d -v $(pwd)/test/volumes/sftp/etc/ssh/sshd_config:/etc/ssh/sshd_config:rw -v $(pwd)/test/volumes/sftp/home/fred/files:/home/fred/files:rw -p 10022:22 atmoz/sftp:alpine fred:password:1001
-      - run: sleep 5000
+      - run: sleep 5
       - run: npm test
