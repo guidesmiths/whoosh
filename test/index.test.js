@@ -49,18 +49,18 @@ describe('client', () => {
     });
   });
 
-  // it('should upload text content', (t, done) => {
-  //   Whoosh.connect(config, (err, whoosh) => {
-  //     ifError(err);
-  //     whoosh.putContent('test message', getRemotePath(t.name), (err, stats) => {
-  //       ifError(err);
-  //       eq('test message', fs.readFileSync(getLocalPath(t.name)).toString());
-  //       eq(stats.bytes, 12);
-  //       ok(stats.duration > 0);
-  //       whoosh.disconnect(done);
-  //     });
-  //   });
-  // });
+  it('should upload text content', (t, done) => {
+    Whoosh.connect(config, (err, whoosh) => {
+      ifError(err);
+      whoosh.putContent('test message', getRemotePath(t.name), (err, stats) => {
+        ifError(err);
+        eq('test message', fs.readFileSync(getLocalPath(t.name)).toString());
+        eq(stats.bytes, 12);
+        ok(stats.duration > 0);
+        whoosh.disconnect(done);
+      });
+    });
+  });
 
   // it('should download text content', (t, done) => {
   //   Whoosh.connect(config, (err, whoosh) => {
