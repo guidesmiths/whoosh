@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.0.1
+
+- Improve readme
+
 ## 2.0.0
 
 - Update production dependencies
