@@ -12,8 +12,8 @@
 - Remove chai
 - Replace mocha with zUnit
 - Fixed deprecations
-- Only support node >= node 14
-- Remove travis build
+- Only support node >= 14
+- Replace travis with GitHub actions
 - Modernise javascript
 
 ## 1.4.0
