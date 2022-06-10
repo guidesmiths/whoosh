@@ -85,7 +85,7 @@ Whoosh.connect(config, (err, client) => {
 
 The options parameter is is optional. When specified it is passed straight through to [SFTPStream's](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md) `createReadStream` method.
 
-### putContent(&lt;content;&gt;, &lt;path&gt;, [&lt;options&gt;], &lt;cb&gt;)
+### putContent(&lt;content&gt;, &lt;path&gt;, [&lt;options&gt;], &lt;cb&gt;)
 
 Uploads the contents of a variable to a remote file
 
