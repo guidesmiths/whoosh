@@ -1,8 +1,11 @@
 {
-  "extends": "imperative",
-  "rules": {
-    "comma-dangle": ["error", "always-multiline"],
-    "indent": ["error", 2],
-    "semi": ["error", "always"]
-  }
+  "extends": ["prettier"],
+  "plugins": ["prettier"],
+  "env": {
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "2015"
+  },
+  "rules": {}
 }

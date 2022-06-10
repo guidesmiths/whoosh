@@ -1,4 +1,5 @@
 # Whoosh
+
 Whoosh is an ultra thin wrapper for [SFTPStream](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md), with the additional benefit of being able to easily stream in memory content to/from an SFTP server.
 
 [![NPM version](https://img.shields.io/npm/v/whoosh.svg?style=flat-square)](https://www.npmjs.com/package/whoosh)
@@ -13,21 +14,29 @@ Whoosh is an ultra thin wrapper for [SFTPStream](https://github.com/mscdex/ssh2-
 ## API
 
 ### connect(&lt;params&gt;, &lt;cb&gt;)
+
 Connect to an sftp server
+
 ```js
-Whoosh.connect({
+Whoosh.connect(
+  {
     hostname: 'sftp.example.com',
     port: 22,
     username: 'fred',
-    password: 'secret'
-}, (err, client) => {
+    password: 'secret',
+  },
+  (err, client) => {
     // profit :)
-})
+  }
+);
 ```
+
 See the [ssh2 client docs](https://github.com/mscdex/ssh2#client-methods) for a full list of connection parameters
 
 ### disconnect(&lt;cb&gt;)
+
 Disconnect from an sftp server
+
 ```
 Whoosh.connect(config, (err, client) => {
     client.disconnect(() => {
@@ -37,16 +46,20 @@ Whoosh.connect(config, (err, client) => {
 ```
 
 ### isConnected()
+
 Returns true when connected to the SFTP server. Useful for checking whether a previously established connection has dropped.
+
 ```js
 Whoosh.connect(config, (err, client) => {
-    if (err) throw err
-    client.isConnected() // returns true
-})
+  if (err) throw err;
+  client.isConnected(); // returns true
+});
 ```
 
 ### isConnected(&lt;cb&gt;)
+
 Asynchronous version of isConnected
+
 ```js
 Whoosh.connect(config, (err, client) => {
     if (err) throw err
@@ -57,7 +70,9 @@ Whoosh.connect(config, (err, client) => {
 ```
 
 ### getContent(&lt;path&gt;, [&lt;options&gt;], &lt;cb&gt;)
+
 Streams the contents of a remote file to a variable
+
 ```js
 Whoosh.connect(config, (err, client) => {
     if (err) throw err
@@ -69,25 +84,31 @@ Whoosh.connect(config, (err, client) => {
     })
 })
 ```
-The options parameter is is optional. When specified it is passed straight through to [SFTPStream's](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md) ```createReadStream``` method.
+
+The options parameter is is optional. When specified it is passed straight through to [SFTPStream's](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md) `createReadStream` method.
 
 ### putContent(&lt;content;&gt;, &lt;path&gt;, [&lt;options&gt;], &lt;cb&gt;)
+
 Streams the contents of a variable to a remote file
+
 ```js
 Whoosh.connect(config, (err, client) => {
-    if (err) throw err
-    client.putContent('some conent', 'some/remote/file', (err, stats) => {
-        client.disconnect(() => {
-            if (err) throw err
-            console.log(`Uploaded ${stats.bytes} bytes in ${stats.duration} ms`)
-        })
-    })
-})
+  if (err) throw err;
+  client.putContent('some conent', 'some/remote/file', (err, stats) => {
+    client.disconnect(() => {
+      if (err) throw err;
+      console.log(`Uploaded ${stats.bytes} bytes in ${stats.duration} ms`);
+    });
+  });
+});
 ```
-The options parameter is is optional. When specified it is passed straight through to [SFTPStream's](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md) ```createWriteStream``` method.
+
+The options parameter is is optional. When specified it is passed straight through to [SFTPStream's](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md) `createWriteStream` method.
 
 ### exists
+
 Reports on whether a remote file exists
+
 ```js
 Whoosh.connect(config, function(err, client) {
     if (err) throw err
@@ -102,39 +123,45 @@ Whoosh.connect(config, function(err, client) {
 
 ## Everything else
 
-The ```client``` object is just a decorated instance of [SFTPStream](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md) so all the other SFTP methods are available. e.g.
+The `client` object is just a decorated instance of [SFTPStream](https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md) so all the other SFTP methods are available. e.g.
+
 ```js
-Whoosh.connect(config, function(err, client) {
-    if (err) throw err
-    client.unlink('some/remote/file', function(err) {
-        client.disconnect(() => {
-            if (err) throw err
-            console.log('Deleted some/remote/file')
-        })
-    })
-})
+Whoosh.connect(config, function (err, client) {
+  if (err) throw err;
+  client.unlink('some/remote/file', function (err) {
+    client.disconnect(() => {
+      if (err) throw err;
+      console.log('Deleted some/remote/file');
+    });
+  });
+});
 ```
 
 ### keyboard interactive
+
 If the server requires keyboard interactive authentication you can configure this as follows...
 
 ```js
-Whoosh.connect({
+Whoosh.connect(
+  {
     hostname: 'sftp.example.com',
     port: 22,
     tryKeyboard: true,
     challenges: [
-        {
-            pattern: /^Username:$/,
-            response: 'fred'
-        },
-        {
-            pattern: /^Password:$/,
-            response: 'secret'
-        }
-    ]
-}, (err, client) => {
+      {
+        pattern: /^Username:$/,
+        response: 'fred',
+      },
+      {
+        pattern: /^Password:$/,
+        response: 'secret',
+      },
+    ],
+  },
+  (err, client) => {
     // profit :)
-})
+  }
+);
 ```
+
 The exact challenge patterns will be server dependent.
