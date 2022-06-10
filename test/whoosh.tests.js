@@ -89,7 +89,7 @@ describe('whoosh', function() {
     var title = this.test.title;
     Whoosh.connect(config, function(err, whoosh) {
       assert.ifError(err);
-      whoosh.putContent(new Buffer('test message'), getRemotePath(title), function(err, stats) {
+      whoosh.putContent(Buffer.from('test message'), getRemotePath(title), function(err, stats) {
         assert.ifError(err);
         assert.equal('test message', fs.readFileSync(getLocalPath(title)).toString());
         assert.equal(stats.bytes, 12);
@@ -102,7 +102,7 @@ describe('whoosh', function() {
     var title = this.test.title;
     Whoosh.connect(config, function(err, whoosh) {
       assert.ifError(err);
-      fs.writeFileSync(getLocalPath(title), new Buffer('test message'));
+      fs.writeFileSync(getLocalPath(title), Buffer.from('test message'));
       whoosh.getContent(getRemotePath(title), function(err, content) {
         assert.ifError(err);
         assert.equal('test message', content);
