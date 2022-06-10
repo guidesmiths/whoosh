@@ -13,6 +13,7 @@
 - Replace mocha with zUnit
 - Fixed deprecations
 - Only support node >= node 14
+- Remove travis build
 
 ## 1.4.0
 
