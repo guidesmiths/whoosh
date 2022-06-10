@@ -6,7 +6,7 @@ const fs = require('fs-extra');
 const crypto = require('crypto');
 const Whoosh = require('..');
 
-describe('whoosh', () => {
+describe('client', () => {
   beforeEach(nuke);
 
   after(nuke);
