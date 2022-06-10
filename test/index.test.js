@@ -25,7 +25,7 @@ describe('client', () => {
   it('should report connection errors', (t, done) => {
     Whoosh.connect(_.defaults({ hostname: 'this-server-should-not-resolve-12asdf32' }, config), (err, whoosh) => {
       ok(err, 'Connection error was not reported');
-      match(err.message, /getaddrinfo ENOTFOUND/);
+      match(err.message, /getaddrinfo (?:ENOTFOUND|EAI_AGAIN)/);
       done();
     });
   });
