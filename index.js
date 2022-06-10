@@ -1,26 +1,26 @@
-var Client = require('ssh2').Client;
-var debug = require('debug')('whoosh:client');
-var ssh2Debug = require('debug')('whoosh:ssh2');
-var _ = require('lodash');
-var Readable = require('stream').Readable;
-var format = require('util').format;
+const Client = require('ssh2').Client;
+const debug = require('debug')('whoosh:client');
+const ssh2Debug = require('debug')('whoosh:ssh2');
+const _ = require('lodash');
+const Readable = require('stream').Readable;
+const format = require('util').format;
 
 module.exports = {
   connect: function (config, next) {
-    var connection = new Client();
-    var once = _.once(next);
-    var connectionUrl = format('%s@%s:%s', config.username, config.hostname, config.port);
+    const connection = new Client();
+    const once = _.once(next);
+    const connectionUrl = format('%s@%s:%s', config.username, config.hostname, config.port);
     var disconnected = true;
     var disconnecting = false;
 
     debug('Connecting to server %s', connectionUrl);
     connection.connect(_.defaults(config, { debug: ssh2Debug }));
 
-    connection.on('ready', function () {
+    connection.on('ready', () => {
       debug('Connected to server %s', connectionUrl);
       disconnected = false;
 
-      connection.sftp(function (err, sftp) {
+      connection.sftp((err, sftp) => {
         if (err) {
           connection.end();
           return next(err);
@@ -30,20 +30,20 @@ module.exports = {
           getContent: function (remotePath, options, next) {
             if (arguments.length === 2) return sftp.getContent(remotePath, {}, arguments[1]);
 
-            var once = _.once(next);
+            const once = _.once(next);
             var content = '';
 
             debug('Creating read stream to %s/%s', connectionUrl, remotePath);
-            var readStream = sftp.createReadStream(remotePath, options);
-            var before = new Date().getTime();
+            const readStream = sftp.createReadStream(remotePath, options);
+            const before = Date.now();
 
             readStream
-              .on('data', function (chunk) {
+              .on('data', (chunk) => {
                 content += chunk;
               })
-              .on('end', function () {
-                var duration = new Date().getTime() - before;
-                var bytes = countBytes(content);
+              .on('end', () => {
+                const duration = Date.now() - before;
+                const bytes = countBytes(content);
 
                 debug('Downloaded %d bytes from %s/%s in %dms', bytes, connectionUrl, remotePath, duration);
                 once(null, content, { bytes: bytes, duration: duration });
@@ -53,35 +53,34 @@ module.exports = {
           putContent: function (content, remotePath, options, next) {
             if (arguments.length === 3) return sftp.putContent(content, remotePath, {}, arguments[2]);
 
-            var once = _.once(next);
+            const once = _.once(next);
 
             debug('Creating write stream to %s/%s', connectionUrl, remotePath);
-            var writeStream = sftp.createWriteStream(remotePath);
-            var before = new Date().getTime();
+            const writeStream = sftp.createWriteStream(remotePath);
+            const before = Date.now();
 
             writeStream
-              .on('close', function () {
-                var duration = new Date().getTime() - before;
-                var bytes = countBytes(content);
+              .on('close', () => {
+                const duration = Date.now() - before;
+                const bytes = countBytes(content);
 
                 debug('Uploaded %d bytes to %s/%s in %sms', bytes, connectionUrl, remotePath, duration);
                 once(null, { bytes: bytes, duration: duration });
               })
               .on('error', once);
 
-            var readStream = new Readable();
+            const readStream = new Readable();
             readStream.push(content);
             readStream.push(null);
             readStream.pipe(writeStream);
           },
           exists: function (remotePath, next) {
-            sftp.stat(remotePath, function (err, stat) {
+            sftp.stat(remotePath, (err, stat) => {
               if (err && err.code !== 2) return next(err);
               return next(null, !!stat);
             });
           },
-          disconnect: function (next) {
-            next = next || function () {};
+          disconnect: function (next = _.noop) {
             if (!sftp.isConnected()) return next();
             disconnecting = true;
             sftp.end();
@@ -89,7 +88,7 @@ module.exports = {
             connection.once('close', next);
           },
           isConnected: function (next) {
-            var connected = !disconnected && !disconnecting;
+            const connected = !disconnected && !disconnecting;
             return (next && next(null, connected)) || connected;
           },
         });
@@ -98,9 +97,9 @@ module.exports = {
       });
     });
 
-    connection.on('keyboard-interactive', function (name, instructions, lang, prompts, finish) {
-      var responses = _.map(prompts, function (entry) {
-        var challenge = _.find(config.challenges, function (challenge) {
+    connection.on('keyboard-interactive', (name, instructions, lang, prompts, finish) => {
+      const responses = _.map(prompts, (entry) => {
+        const challenge = _.find(config.challenges, (challenge) => {
           return challenge.pattern.test(entry.prompt);
         });
         if (challenge) return challenge.response;
@@ -110,17 +109,17 @@ module.exports = {
       finish(responses);
     });
 
-    connection.on('error', function (err) {
+    connection.on('error', (err) => {
       debug('Received error from connection: %s:%s. Original error was: ', config.hostname, config.port, err.message);
       once(err);
     });
 
-    connection.on('end', function () {
+    connection.on('end', () => {
       debug('Connection to %s:%s ended', config.hostname, config.port);
       disconnect();
     });
 
-    connection.on('close', function () {
+    connection.on('close', () => {
       debug('Connection to %s:%s closed', config.hostname, config.port);
       disconnect();
     });
