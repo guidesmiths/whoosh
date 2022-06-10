@@ -14,14 +14,12 @@ jobs:
           SFTP_USERS: fred:password:1001
         volumes:
           # - ${{ github.workspace }}/test/volumes/sftp/etc/ssh/ssd/config:/etc/ssh/ssd_config
-          - ${{ github.workspace }}/test/volumes/sftp/home/fred/files:/home/fred/files
+          - /var/sftp/home/fred/files:/home/fred/files
     strategy:
       matrix:
         node-version: [14.x, 16.x, 18.x]
     steps:
-      - uses: actions/checkout@v3
-        with:
-          clean: false
+      - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
