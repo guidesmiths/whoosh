@@ -6,7 +6,7 @@ const Readable = require('stream').Readable;
 const format = require('util').format;
 
 module.exports = {
-  connect: function (config, next) {
+  connect(config, next) {
     const connection = new Client();
     const once = _.once(next);
     const connectionUrl = format('%s@%s:%s', config.username, config.hostname, config.port);
@@ -27,7 +27,7 @@ module.exports = {
         }
 
         sftp = _.extend(sftp, {
-          getContent: function (remotePath, options, cb) {
+          getContent(remotePath, options, cb) {
             if (arguments.length === 2) return sftp.getContent(remotePath, {}, arguments[1]);
 
             const once = _.once(cb);
@@ -46,11 +46,11 @@ module.exports = {
                 const bytes = countBytes(content);
 
                 debug('Downloaded %d bytes from %s/%s in %dms', bytes, connectionUrl, remotePath, duration);
-                once(null, content, { bytes: bytes, duration: duration });
+                once(null, content, { bytes, duration });
               })
               .on('error', once);
           },
-          putContent: function (content, remotePath, options, cb) {
+          putContent(content, remotePath, options, cb) {
             if (arguments.length === 3) return sftp.putContent(content, remotePath, {}, arguments[2]);
 
             const once = _.once(cb);
@@ -65,7 +65,7 @@ module.exports = {
                 const bytes = countBytes(content);
 
                 debug('Uploaded %d bytes to %s/%s in %sms', bytes, connectionUrl, remotePath, duration);
-                once(null, { bytes: bytes, duration: duration });
+                once(null, { bytes, duration });
               })
               .on('error', once);
 
@@ -74,20 +74,20 @@ module.exports = {
             readStream.push(null);
             readStream.pipe(writeStream);
           },
-          exists: function (remotePath, cb) {
+          exists(remotePath, cb) {
             sftp.stat(remotePath, (err, stat) => {
               if (err && err.code !== 2) return cb(err);
               return cb(null, !!stat);
             });
           },
-          disconnect: function (cb = _.noop) {
+          disconnect(cb = _.noop) {
             if (!sftp.isConnected()) return cb();
             disconnecting = true;
             sftp.end();
             connection.end();
             connection.once('close', cb);
           },
-          isConnected: function (cb) {
+          isConnected(cb) {
             const connected = !disconnected && !disconnecting;
             return (cb && cb(null, connected)) || connected;
           },
