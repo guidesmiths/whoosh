@@ -1,4 +1,5 @@
 const { match, ok, ifError, strictEqual: eq } = require('assert');
+const path = require('path');
 const _ = require('lodash');
 const async = require('async');
 const fs = require('fs-extra');
@@ -244,10 +245,10 @@ describe('client', () => {
   });
 
   function getRemotePath(filename) {
-    return 'files/uploads/' + (filename ? filename.replace(/\W/g, '_') : '');
+    return path.join('files/uploads/', filename ? filename.replace(/\W/g, '_') : '');
   }
 
   function getLocalPath(filename) {
-    return __dirname + '/volumes/sftp/home/fred/' + getRemotePath(filename);
+    return path.join(__dirname, '/volumes/sftp/home/fred/', getRemotePath(filename));
   }
 });
