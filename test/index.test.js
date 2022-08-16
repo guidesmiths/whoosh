@@ -150,12 +150,7 @@ describe('client', () => {
             whoosh.readdir(getRemotePath(), (err, list) => {
               ifError(err);
               eq(list.length, 1000);
-              ok(
-                !_.find(list, (stat) => {
-                  return stat.attrs.size !== content.length;
-                }),
-                'File was corrupted during upload'
-              );
+              ok(!_.find(list, (stat) => stat.attrs.size !== content.length), 'File was corrupted during upload');
               whoosh.disconnect(done);
             });
           }

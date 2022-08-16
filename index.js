@@ -99,9 +99,7 @@ module.exports = {
 
     connection.on('keyboard-interactive', (name, instructions, lang, prompts, finish) => {
       const responses = _.map(prompts, (entry) => {
-        const challenge = _.find(config.challenges, (candidate) => {
-          return candidate.pattern.test(entry.prompt);
-        });
+        const challenge = _.find(config.challenges, (candidate) => candidate.pattern.test(entry.prompt));
         if (challenge) return challenge.response;
         debug('No response for challenge: %s', entry.prompt);
         return '';

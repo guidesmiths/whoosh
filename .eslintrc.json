@@ -7,7 +7,6 @@
     "ecmaVersion": "2015"
   },
   "rules": {
-    "arrow-body-style": 0,
     "consistent-return": 0,
     "func-names": 0,
     "prefer-destructuring": 0,
