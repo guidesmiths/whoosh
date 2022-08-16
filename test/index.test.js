@@ -105,9 +105,9 @@ describe('client', () => {
       ifError(err);
       async.series(
         {
-          a: whoosh.putContent.bind(whoosh, 'test message 1', getRemotePath(t.name + '_1')),
-          b: whoosh.putContent.bind(whoosh, 'test message 2', getRemotePath(t.name + '_2')),
-          c: whoosh.putContent.bind(whoosh, 'test message 3', getRemotePath(t.name + '_3')),
+          a: whoosh.putContent.bind(whoosh, 'test message 1', getRemotePath(`${t.name}_1`)),
+          b: whoosh.putContent.bind(whoosh, 'test message 2', getRemotePath(`${t.name}_2`)),
+          c: whoosh.putContent.bind(whoosh, 'test message 3', getRemotePath(`${t.name}_3`)),
           list: whoosh.readdir.bind(whoosh, getRemotePath()),
         },
         (err, results) => {
@@ -143,7 +143,7 @@ describe('client', () => {
           1000,
           50,
           (index, next) => {
-            whoosh.putContent(content, getRemotePath(t.name + '_' + index), next);
+            whoosh.putContent(content, getRemotePath(`${t.name}_${index}`), next);
           },
           (err) => {
             ifError(err);
