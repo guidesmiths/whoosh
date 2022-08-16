@@ -1,0 +1,24 @@
+{
+  "extends": ["eslint-config-airbnb-base", "prettier"],
+  "env": {
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "2015"
+  },
+  "rules": {
+    "arrow-body-style": 0,
+    "consistent-return": 0,
+    "func-names": 0,
+    "object-shorthand": 0,
+    "prefer-destructuring": 0,
+    "prefer-rest-params": 0,
+    "prefer-template": 0,
+    "no-param-reassign": 0,
+    "no-path-concat": 0,
+    "no-shadow": 0,
+    "no-unused-vars": 0,
+    "no-use-before-define": 0,
+    "prefer-arrow-callback": 0
+  }
+}

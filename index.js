@@ -10,8 +10,8 @@ module.exports = {
     const connection = new Client();
     const once = _.once(next);
     const connectionUrl = format('%s@%s:%s', config.username, config.hostname, config.port);
-    var disconnected = true;
-    var disconnecting = false;
+    let disconnected = true;
+    let disconnecting = false;
 
     debug('Connecting to server %s', connectionUrl);
     connection.connect(_.defaults(config, { debug: ssh2Debug }));
@@ -31,7 +31,7 @@ module.exports = {
             if (arguments.length === 2) return sftp.getContent(remotePath, {}, arguments[1]);
 
             const once = _.once(next);
-            var content = '';
+            let content = '';
 
             debug('Creating read stream to %s/%s', connectionUrl, remotePath);
             const readStream = sftp.createReadStream(remotePath, options);
