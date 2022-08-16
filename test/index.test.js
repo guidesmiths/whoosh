@@ -1,4 +1,3 @@
-const assert = require('assert');
 const { match, ok, ifError, strictEqual: eq } = require('assert');
 const _ = require('lodash');
 const async = require('async');
@@ -23,7 +22,7 @@ describe('client', () => {
   };
 
   it('should report connection errors', (t, done) => {
-    Whoosh.connect(_.defaults({ hostname: 'this-server-should-not-resolve-12asdf32' }, config), (err, whoosh) => {
+    Whoosh.connect(_.defaults({ hostname: 'this-server-should-not-resolve-12asdf32' }, config), (err) => {
       ok(err, 'Connection error was not reported');
       match(err.message, /getaddrinfo (?:ENOTFOUND|EAI_AGAIN)/);
       done();
@@ -31,7 +30,7 @@ describe('client', () => {
   });
 
   it('should report connection errors', (t, done) => {
-    Whoosh.connect(_.defaults({ password: 'bad' }, config), (err, whoosh) => {
+    Whoosh.connect(_.defaults({ password: 'bad' }, config), (err) => {
       ok(err, 'Connection error was not reported');
       eq(err.message, 'All configured authentication methods failed');
       done();
@@ -211,7 +210,7 @@ describe('client', () => {
   it('should report if a file exists', (t, done) => {
     Whoosh.connect(config, (err, whoosh) => {
       ifError(err);
-      whoosh.putContent('test message', getRemotePath(t.name), (err, stats) => {
+      whoosh.putContent('test message', getRemotePath(t.name), (err) => {
         ifError(err);
         whoosh.exists(getRemotePath(t.name), (err, exists) => {
           ifError(err);
@@ -236,7 +235,7 @@ describe('client', () => {
   it('should not disconnect after checking if a non existent file exists', (t, done) => {
     Whoosh.connect(config, (err, whoosh) => {
       ifError(err);
-      whoosh.exists(getRemotePath(t.name), (err, exists) => {
+      whoosh.exists(getRemotePath(t.name), (err) => {
         ifError(err);
         ok(whoosh.isConnected());
         whoosh.disconnect(done);
