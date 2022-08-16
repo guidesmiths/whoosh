@@ -56,7 +56,7 @@ module.exports = {
             const once = _.once(next);
 
             debug('Creating write stream to %s/%s', connectionUrl, remotePath);
-            const writeStream = sftp.createWriteStream(remotePath);
+            const writeStream = sftp.createWriteStream(remotePath, options);
             const before = Date.now();
 
             writeStream
