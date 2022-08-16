@@ -27,10 +27,10 @@ module.exports = {
         }
 
         sftp = _.extend(sftp, {
-          getContent: function (remotePath, options, next) {
+          getContent: function (remotePath, options, cb) {
             if (arguments.length === 2) return sftp.getContent(remotePath, {}, arguments[1]);
 
-            const once = _.once(next);
+            const once = _.once(cb);
             let content = '';
 
             debug('Creating read stream to %s/%s', connectionUrl, remotePath);
@@ -50,10 +50,10 @@ module.exports = {
               })
               .on('error', once);
           },
-          putContent: function (content, remotePath, options, next) {
+          putContent: function (content, remotePath, options, cb) {
             if (arguments.length === 3) return sftp.putContent(content, remotePath, {}, arguments[2]);
 
-            const once = _.once(next);
+            const once = _.once(cb);
 
             debug('Creating write stream to %s/%s', connectionUrl, remotePath);
             const writeStream = sftp.createWriteStream(remotePath, options);
@@ -74,22 +74,22 @@ module.exports = {
             readStream.push(null);
             readStream.pipe(writeStream);
           },
-          exists: function (remotePath, next) {
+          exists: function (remotePath, cb) {
             sftp.stat(remotePath, (err, stat) => {
-              if (err && err.code !== 2) return next(err);
-              return next(null, !!stat);
+              if (err && err.code !== 2) return cb(err);
+              return cb(null, !!stat);
             });
           },
-          disconnect: function (next = _.noop) {
-            if (!sftp.isConnected()) return next();
+          disconnect: function (cb = _.noop) {
+            if (!sftp.isConnected()) return cb();
             disconnecting = true;
             sftp.end();
             connection.end();
-            connection.once('close', next);
+            connection.once('close', cb);
           },
-          isConnected: function (next) {
+          isConnected: function (cb) {
             const connected = !disconnected && !disconnecting;
-            return (next && next(null, connected)) || connected;
+            return (cb && cb(null, connected)) || connected;
           },
         });
 
@@ -99,8 +99,8 @@ module.exports = {
 
     connection.on('keyboard-interactive', (name, instructions, lang, prompts, finish) => {
       const responses = _.map(prompts, (entry) => {
-        const challenge = _.find(config.challenges, (challenge) => {
-          return challenge.pattern.test(entry.prompt);
+        const challenge = _.find(config.challenges, (candidate) => {
+          return candidate.pattern.test(entry.prompt);
         });
         if (challenge) return challenge.response;
         debug('No response for challenge: %s', entry.prompt);
