@@ -1,5 +1,10 @@
 # Change Log
 
+## 2.0.2
+
+- Introduce eslint-config-airbnb-base
+- Pass putContent options to sftp.createWriteStream as per https://github.com/guidesmiths/whoosh/pull/13. Thanks @Megapixel99
+
 ## 2.0.1
 
 - Improve readme
