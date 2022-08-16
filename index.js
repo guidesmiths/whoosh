@@ -1,9 +1,9 @@
-const Client = require('ssh2').Client;
+const { Readable } = require('stream');
+const { format } = require('util');
+const { Client } = require('ssh2');
 const debug = require('debug')('whoosh:client');
 const ssh2Debug = require('debug')('whoosh:ssh2');
 const _ = require('lodash');
-const Readable = require('stream').Readable;
-const format = require('util').format;
 
 module.exports = {
   connect(config, next) {
