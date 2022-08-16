@@ -182,7 +182,7 @@ describe('client', () => {
     Whoosh.connect(config, (err, whoosh) => {
       ifError(err);
       ok(whoosh.isConnected());
-      whoosh.disconnect(function () {
+      whoosh.disconnect(() => {
         ok(!whoosh.isConnected());
         done();
       });
